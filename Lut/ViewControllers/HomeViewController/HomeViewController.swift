@@ -859,6 +859,7 @@ class HomeViewController: BaseViewController,UITableViewDelegate,UITableViewData
     
     @objc func closeSubmitView()
     {
+        loadDB()
         sourceCoordinate = nil
         directionLine?.map = nil
         sourceMarker?.map = nil

@@ -64,7 +64,7 @@ enum BananaRouter: URLRequestConvertible {
     var path: String {
         switch self {
         case .GetEventList(let userID):
-            return "clustersAll/"
+            return "clustersAll/\(userID)"
         case .GetUser(let userID, _):
             return "user/\(userID)"
         case .PostUser( _):

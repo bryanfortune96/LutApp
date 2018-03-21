@@ -67,6 +67,7 @@ class CustomInfoWindowUIView: UIView {
         contentView.levelLb.text = "\(String(describing: (trafficInfo?.level)!))cm"
         contentView.durationLb.text = "\((trafficInfo?.duration)!/60)min"
         contentView.dateLb.text = "\(time)"
+        contentView.userLb.text = "updated by \((trafficInfo?.author?.nickname)!)"
         contentView.nameLb.text = trafficInfo?.name!
         contentView.pointLb.text = "\(String(describing: (trafficInfo?.points?.points)!))/5"
         if !(trafficInfo?.imagePaths?.isEmpty)! {
@@ -104,7 +105,7 @@ class CustomInfoWindowUIView: UIView {
     
     @objc private func updatePointAfterRating(_ notification: NSNotification) {
         let score = notification.userInfo!["score"] as! Double
-        if !checkIfEventBelongsToCurrentUser(authorId: (trafficInfo?.authorId)!) {
+        if !checkIfEventBelongsToCurrentUser(authorId: (trafficInfo?.author?.id)!) {
             showVotedStars()
             pointLb.text = "\(score)/5"
         } else {

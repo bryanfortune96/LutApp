@@ -149,7 +149,7 @@ class EventDetailsObject: NSObject, Mappable {
     
     var id: String?
     var name: String?
-    var authorId: String?
+    var author: UsersObject?
     var startLatitude: Float?
     var startLongtitude: Float?
     var level: Int?
@@ -175,7 +175,7 @@ class EventDetailsObject: NSObject, Mappable {
         
         id <- map["_id"]
         name <- map["name"]
-        authorId <- map["userId"]
+        author <- map["userId"]
         startLatitude <- map["latitude"]
         startLongtitude <- map["longitude"]
         radius <- map["radius"]
