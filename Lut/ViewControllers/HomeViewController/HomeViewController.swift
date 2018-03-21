@@ -123,7 +123,7 @@ class HomeViewController: BaseViewController,UITableViewDelegate,UITableViewData
             }
         }
     }
-    var response: EventListResponse?
+    var response: ClusterListResponse?
     {
         didSet{
             self.hideLoading()
@@ -138,7 +138,7 @@ class HomeViewController: BaseViewController,UITableViewDelegate,UITableViewData
             }
         }
     }
-    var traffic: [EventDetailsObject] = []
+    var traffic: [ClusterDetailsObject] = []
     {
         didSet{
             clearData()
@@ -410,13 +410,14 @@ class HomeViewController: BaseViewController,UITableViewDelegate,UITableViewData
         //mapView.clear()
         for x in traffic
         {
-            let source = CLLocationCoordinate2D.init(latitude: CLLocationDegrees(x.startLatitude!), longitude: CLLocationDegrees(x.startLongtitude!))
-            //drawPolylineRoute(from: source, to: dest, density: x.density!)
-            if source.latitude < source.longitude {
-                drawCircle(source: source, radius: x.radius!, level: x.level!,eventID: x.id!)
+            for y in x.eventList! {
+                let source = CLLocationCoordinate2D.init(latitude: CLLocationDegrees(y.startLatitude!), longitude: CLLocationDegrees(y.startLongtitude!))
+                //drawPolylineRoute(from: source, to: dest, density: x.density!)
+                if source.latitude < source.longitude {
+                    drawCircle(source: source, radius: y.radius!, level: x.level!,eventID: y.id!)
+                }
             }
         }
-        
     }
     
     func drawIcon(location: CLLocationCoordinate2D,kind: Int)
@@ -534,23 +535,24 @@ class HomeViewController: BaseViewController,UITableViewDelegate,UITableViewData
         //draw flooded area in circle
         let circleCenter = source
         let circ = GMSCircle(position: circleCenter, radius: CLLocationDistance(radius))
-        
+        circ.strokeColor = UIColor.clear
+
         switch level {
         case -1:
             circ.fillColor = UIColor(red: 0, green: 0, blue: 1, alpha: 0.1)
             circ.strokeColor = UIColor.blue
         case 0...10:
             circ.fillColor = UIColor(red: 1, green: 1, blue: 0, alpha: 0.1)
-            circ.strokeColor = UIColor.yellow
+            //circ.strokeColor = UIColor.yellow
         case 11...50:
             circ.fillColor = UIColor(red: 1, green: 128/255, blue: 0, alpha: 0.1)
-            circ.strokeColor = UIColor.orange
+            //circ.strokeColor = UIColor.orange
         case 51...100:
             circ.fillColor = UIColor(red: 1, green: 0, blue: 0, alpha: 0.1)
-            circ.strokeColor = UIColor.red
+            //circ.strokeColor = UIColor.red
         case 100...300:
             circ.fillColor = UIColor(red: 0.6, green: 0.4, blue: 0.2, alpha: 0.1)
-            circ.strokeColor = UIColor.brown
+            //circ.strokeColor = UIColor.brown
         default:
             break
             
@@ -735,6 +737,7 @@ class HomeViewController: BaseViewController,UITableViewDelegate,UITableViewData
     }
     
     @IBAction func submitPressed(_ sender: Any) {
+        mapView.clear()
         if stageOfSubmission == 0
         {
             moveToLocation(zoomLevel: 17.0)
@@ -749,12 +752,12 @@ class HomeViewController: BaseViewController,UITableViewDelegate,UITableViewData
                 self.view.layoutIfNeeded()
             })
         }
+    }
+    
+    @IBAction func layerPressed(_ sender: Any) {
         
     }
-    @IBAction func layerPressed(_ sender: Any) {
-        let alert = CustomAlertView(trafficInfo: traffic[0])
-        alert.show(animated: true)
-    }
+    
     @IBAction func okPressed(_ sender: Any) {
         if sourceCoordinate == nil && stageOfSubmission == 1
         {
@@ -817,8 +820,6 @@ class HomeViewController: BaseViewController,UITableViewDelegate,UITableViewData
             UIView.animate(withDuration: 0.5, animations: {
                 self.view.layoutIfNeeded()
             })
-            
-           
         }
         else if stageOfSubmission == 4
         {
@@ -978,9 +979,11 @@ extension HomeViewController: GMSMapViewDelegate{
     
     func mapView(_ mapView: GMSMapView, didTap marker: GMSMarker) -> Bool {
         for x in traffic {
-            if marker.title == x.id {
-                let alert = CustomAlertView(trafficInfo: x)
-                alert.show(animated: true)
+            for y in x.eventList! {
+                if marker.title == y.id {
+                    let alert = CustomAlertView(trafficInfo: y)
+                    alert.show(animated: true)
+                }
             }
         }
         

@@ -17,6 +17,14 @@ class EventListResponse: BaseResponse {
     }
 }
 
+class ClusterListResponse: BaseResponse {
+    var data : [ClusterDetailsObject]?
+    override func mapping(map: Map) {
+        super.mapping(map: map)
+        data <- map["data"]
+    }
+}
+
 class EventDetailsResponse: BaseResponse {
     var data : EventDetailsObject?
     override func mapping(map: Map) {
@@ -121,6 +129,19 @@ class UsersObject: NSObject, Mappable {
         date <- map["created_at"]
         queryPoint <- map["queryTimePoints"]
         avatarImgPath <- map["avatar"]
+    }
+}
+
+class ClusterDetailsObject: NSObject, Mappable {
+    var eventList: [EventDetailsObject]?
+    var level: Int?
+
+    required init?(map: Map) {
+    }
+    
+    func mapping(map: Map) {
+        eventList <- map["Events"]
+        level <- map["level_now"]
     }
 }
 

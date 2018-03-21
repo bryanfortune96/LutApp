@@ -58,17 +58,13 @@ enum BananaRouter: URLRequestConvertible {
             return .get
         case .GetLeaderboardMonth( _):
             return .get
-        
         }
-        
-        
-        
     }
     
     var path: String {
         switch self {
         case .GetEventList(let userID):
-            return "clusterssAll/"
+            return "clustersAll/"
         case .GetUser(let userID, _):
             return "user/\(userID)"
         case .PostUser( _):
@@ -130,7 +126,6 @@ enum BananaRouter: URLRequestConvertible {
             break;
         case .PostEvent(let param, let token):
             urlRequest.httpBody = try JSONSerialization.data(withJSONObject: param, options: JSONSerialization.WritingOptions.prettyPrinted)
-            
             break;
         case .Register(let param):
             urlRequest.httpBody = try JSONSerialization.data(withJSONObject: param, options: JSONSerialization.WritingOptions.prettyPrinted)

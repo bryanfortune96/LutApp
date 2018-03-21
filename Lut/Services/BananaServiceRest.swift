@@ -14,7 +14,7 @@ class BananaServiceRest: BaseService, BananaServiceProtocol {
         return self.makeRequest(request: BananaRouter.Register(param: param), returnType: RegisterResponse.self, isArrayResponse: false, showLoading: true).task
     }
     func GetEventList(userID: String) -> BFTask<AnyObject> {
-        return self.makeRequest(request: BananaRouter.GetEventList(userID: userID), returnType: EventListResponse.self, isArrayResponse: false, showLoading: true).task
+        return self.makeRequest(request: BananaRouter.GetEventList(userID: userID), returnType: ClusterListResponse.self, isArrayResponse: false, showLoading: true).task
     }
     
     func GetEvent(eventID: String) -> BFTask<AnyObject> {

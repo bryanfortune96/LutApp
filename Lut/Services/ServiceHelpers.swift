@@ -11,11 +11,11 @@ import Foundation
 
 class ServiceHelpers: BaseServiceHelper {
     
-    static func getEventList(userID: String,callback: @escaping (_ result: EventListResponse) -> Void) {
+    static func getEventList(userID: String,callback: @escaping (_ result: ClusterListResponse) -> Void) {
         let request = Helpers.getAssemblerResolver().resolve(BananaServiceProtocol.self)?.GetEventList(userID: userID)
         ServiceHelpers.handleBFTask(task: request!) { (data, err) in
             if err == nil {
-                let res = data.result as! EventListResponse
+                let res = data.result as! ClusterListResponse
                 callback(res)
             }
         }
