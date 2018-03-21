@@ -1,0 +1,6 @@
+framework module Pods_LutUITests {
+  umbrella header "Pods-LutUITests-umbrella.h"
+
+  export *
+  module * { export * }
+}
