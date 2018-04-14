@@ -40,11 +40,12 @@ class CustomAlertView: UIView, Modal {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func didTappedOnBackgroundView(){
+    func didTappedOnBackgroundView() {
+        NotificationCenter.default.post(name: NSNotification.Name("CloseDetailScreen"), object: nil)
         dismiss(animated: true)
     }
     
-    func implementDialogView(trafficInfo: EventDetailsObject) -> CustomInfoWindowUIView {
+    func implementDialogView(trafficInfo: EventDetailsObject) -> UIView {
         let dialogView = CustomInfoWindowUIView(frame: frame, trafficInfo: trafficInfo)
         let dialogViewHeight:CGFloat = frame.height - 140
         dialogView.frame.origin = CGPoint(x: 32, y: frame.height)
@@ -57,7 +58,6 @@ class CustomAlertView: UIView, Modal {
         dialogView.layer.shadowRadius = 6
         dialogView.clipsToBounds = true
         
-
         return dialogView
     }
 }

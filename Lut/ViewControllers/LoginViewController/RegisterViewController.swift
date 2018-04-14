@@ -8,7 +8,7 @@
 
 import UIKit
 
-class RegisterViewController: UIViewController {
+class RegisterViewController: BaseViewController {
 
     
     @IBOutlet weak var emailTxtField: UITextField!
@@ -32,6 +32,7 @@ class RegisterViewController: UIViewController {
     var response: RegisterResponse?
     {
         didSet{
+            self.hideLoading()
             if (response?.success)!
             {
                 self.userInfo = response?.data
@@ -48,8 +49,11 @@ class RegisterViewController: UIViewController {
         didSet{
             UserDefaults.standard.set(emailTxtField.text, forKey: "Email")
             UserDefaults.standard.set(pswTxtField.text, forKey: "Password")
-            self.dismiss(animated: true, completion: nil)
-          
+            let alert = UIAlertController(title: "Sucessfully registered!", message: response?.message, preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { action in
+                    self.dismiss(animated: true, completion: nil)
+                }))
+            self.present(alert, animated: true, completion: nil)
         }
     }
     var email = ""
@@ -106,7 +110,7 @@ class RegisterViewController: UIViewController {
     }
     
     @IBAction func registerPressed(_ sender: Any) {
-        
+        self.showLoading()
         let param = ["email": emailTxtField.text, "password": pswTxtField.text, "nickname": usrNameTxtField.text, "phone": phoneTxtField.text, "address": addressTxtField.text,"confirmPassword": confirmPswTxtField.text]
         ServiceHelpers.register(param: param){ (response) in
             self.response = response

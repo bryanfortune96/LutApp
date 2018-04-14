@@ -21,6 +21,7 @@ pod 'RDVTabBarController'
   pod 'IQKeyboardManager'
   pod 'BEMCheckBox'
   pod 'NVActivityIndicatorView'
+  pod 'COSTouchVisualizer'
   pod 'SDWebImage', '~> 3.7.1'
   pod 'Cosmos', '~> 15.0'
 # Pods for Lut

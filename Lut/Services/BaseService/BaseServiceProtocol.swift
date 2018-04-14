@@ -45,7 +45,7 @@ extension BaseServiceProtocol {
             switch response.result {
             case .failure(_):
                 let customError = NSError(domain: "bananaserver.herokuapp.com", code: response.response?.statusCode ?? 9901, userInfo: [NSLocalizedDescriptionKey: response.response?.description ?? "Could not connect to the server."])
-                taskCompletionSource.setError(customError)
+                taskCompletionSource.set(error: customError)
             case .success(let responseObject):
                 print("=====request=====")
                 print(request.urlRequest?.url?.absoluteString ?? "")
@@ -55,17 +55,17 @@ extension BaseServiceProtocol {
                 if response.response?.statusCode == 200 {
                     if isArrayResponse {
                         if let apiResponse = Mapper<T>().mapArray(JSONObject: responseObject) {
-                            taskCompletionSource.setResult(apiResponse as AnyObject?)
+                            taskCompletionSource.set(result: apiResponse as AnyObject?)
                         }
                     } else {
                         if let apiResponse = Mapper<T>().map(JSONObject: responseObject) {
-                            taskCompletionSource.setResult(apiResponse as AnyObject?)
+                            taskCompletionSource.set(result: apiResponse as AnyObject?)
                         }
                     }
                     
                 } else {
                     let customError = NSError(domain: "techlove.vn", code: response.response?.statusCode ?? 9901, userInfo: [NSLocalizedDescriptionKey: response.response?.description ?? "Could not connect to the server."])
-                    taskCompletionSource.setError(customError)
+                    taskCompletionSource.set(error: customError)
                     
                 }
             }

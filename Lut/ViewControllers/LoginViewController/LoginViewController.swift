@@ -8,7 +8,7 @@
 
 import UIKit
 
-class LoginViewController: UIViewController {
+class LoginViewController: BaseViewController {
 
     @IBOutlet weak var appVersionLb: UILabel!
     @IBOutlet weak var mailTextField: UITextField!
@@ -22,6 +22,7 @@ class LoginViewController: UIViewController {
                 self.userInfo = response?.data
             }
             else {
+                self.hideLoading()
                 let alert = UIAlertController(title: "Warning!", message: response?.message, preferredStyle: .alert)
                 alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
                 self.present(alert, animated: true, completion: nil)
@@ -31,7 +32,7 @@ class LoginViewController: UIViewController {
     
     var userInfo: UserInfoObject?
     {
-        didSet{
+        didSet {
             UserDefaults.standard.set(mailTextField.text, forKey: "Email")
             UserDefaults.standard.set(passTextField.text, forKey: "Password")
             UserDefaults.standard.set(userInfo?.token, forKey: "Token")
@@ -71,6 +72,7 @@ class LoginViewController: UIViewController {
         let isLoggedIn = UserDefaults.standard.bool(forKey: "isLoggedIn")
         if isLoggedIn
         {
+            self.showLoading()
             let email = UserDefaults.standard.string(forKey: "Email")
             let pass = UserDefaults.standard.string(forKey: "Password")
             let param = ["email": email,"password": pass]
@@ -98,6 +100,7 @@ class LoginViewController: UIViewController {
     
     ////button funcions
     @IBAction func loginPressed(_ sender: Any) {
+        self.showLoading()
         let email = mailTextField.text!
         let pass = passTextField.text!
         let param = ["email": email,"password": pass]

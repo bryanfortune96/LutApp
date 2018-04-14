@@ -13,12 +13,25 @@ import GoogleMaps
 import GooglePlaces
 import MBProgressHUD
 import IQKeyboardManager
-
+import COSTouchVisualizer
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate, COSTouchVisualizerWindowDelegate {
 
-    var window: UIWindow?
+    lazy var window: UIWindow? = {
+        var customWindow = COSTouchVisualizerWindow(frame: UIScreen.main.bounds)
+        
+        customWindow.fillColor = UIColor.purple
+        customWindow.strokeColor = UIColor.blue
+        customWindow.touchAlpha = 0.4;
+        
+        customWindow.rippleFillColor = UIColor.purple
+        customWindow.rippleStrokeColor = UIColor.blue
+        customWindow.touchAlpha = 0.1;
+        
+        customWindow.touchVisualizerWindowDelegate = self
+        return customWindow
+    }()
     var viewcontroller : UIViewController?
     var tabHome : UINavigationController?
     var tabList : UINavigationController?
@@ -46,7 +59,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         UserDefaults.standard.register(defaults: ["Phone": ""])
         UserDefaults.standard.register(defaults: ["Address": ""])
 
-
         IQKeyboardManager.shared().isEnabled = true
 
         
@@ -67,7 +79,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         return true
     }
-
+    
+    func touchVisualizerWindowShouldAlwaysShowFingertip(_ window: COSTouchVisualizerWindow!) -> Bool {
+        return true
+    }
 
     func loadVC(){
         let homeVC = HomeViewController()

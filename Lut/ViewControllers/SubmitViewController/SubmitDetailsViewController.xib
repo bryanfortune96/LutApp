@@ -17,15 +17,17 @@
                 <outlet property="cameraButt" destination="RI4-Xt-bt4" id="WeE-df-h6C"/>
                 <outlet property="distanceLb" destination="Ly8-7T-R1g" id="t4S-jf-Bmi"/>
                 <outlet property="drainageCheckBox" destination="FGc-EK-L20" id="ByY-3M-s5z"/>
-                <outlet property="durationLb" destination="HF7-aO-jpR" id="RSM-Rw-G6m"/>
-                <outlet property="durationSlider" destination="o5k-UU-f2h" id="rYf-Y1-vrH"/>
                 <outlet property="imageBottomConstraint" destination="x73-fe-8pU" id="2ew-5c-t5W"/>
                 <outlet property="imageCoverViewHeightConstraint" destination="uAj-Nk-QDd" id="mk9-rC-g2v"/>
                 <outlet property="imageHeightContraint" destination="ceA-hJ-ZOA" id="wij-EZ-8iW"/>
                 <outlet property="imageView" destination="kNw-Dp-83l" id="1qi-RD-e9J"/>
                 <outlet property="levelLb" destination="UVz-ON-8Nx" id="uKs-NT-q4N"/>
                 <outlet property="levelSlider" destination="4GI-ec-6uM" id="scI-yv-VNB"/>
+                <outlet property="levelTitleLb" destination="rTb-vo-YuR" id="xne-ha-BfD"/>
                 <outlet property="middleView" destination="Bf6-25-hNJ" id="yT6-zr-M6j"/>
+                <outlet property="nextLevelLb" destination="HF7-aO-jpR" id="RSM-Rw-G6m"/>
+                <outlet property="nextLevelSlider" destination="o5k-UU-f2h" id="rYf-Y1-vrH"/>
+                <outlet property="nextLevelTitleLb" destination="wFq-Nt-brk" id="D8L-S4-fLn"/>
                 <outlet property="otherCheckBox" destination="iGv-Ky-zu7" id="3TA-vf-8TP"/>
                 <outlet property="radiusLb" destination="ELX-Hw-VaV" id="3w0-Qc-n7v"/>
                 <outlet property="radiusSlider" destination="jUl-Pq-Qac" id="VjJ-Xq-9dD"/>
@@ -194,7 +196,7 @@
                             <nil key="textColor"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Estimated Duration(min)" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wFq-Nt-brk">
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Estimated Level in 5 minutes" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wFq-Nt-brk">
                             <rect key="frame" x="8" y="217" width="269" height="21"/>
                             <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
                             <nil key="textColor"/>

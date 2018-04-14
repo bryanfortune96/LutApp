@@ -215,25 +215,22 @@ class Helpers:NSObject
     {
         var temp = reasons
         var result:[String] = []
-        if temp == 0
-        {
-            result.append("Rain")
-        }
-        temp = temp % 1000
-        if temp == 1
-        {
-            result.append("Tides")
-        }
-        temp = temp % 100
-        if temp == 2
-        {
-            result.append("Drainage")
-        }
-        temp = temp % 10
-        if temp == 3
-        {
+        if temp/1000 == 1 {
             result.append("Others")
         }
+        temp = temp % 1000
+        if temp/100 == 1 {
+            result.append("Drainage")
+        }
+        temp = temp % 100
+        if temp/10 == 1 {
+            result.append("Tides")
+        }
+        temp = temp % 10
+        if temp == 1 {
+            result.append("Rain")
+        }
+        
         
         return result
     }

@@ -29,10 +29,12 @@ class SubmitDetailsViewController: BaseViewController {
     @IBOutlet weak var titleLb: MarqueeLabel!
     @IBOutlet weak var levelSlider: UISlider!
     @IBOutlet weak var radiusSlider: UISlider!
-    @IBOutlet weak var durationSlider: UISlider!
+    @IBOutlet weak var nextLevelSlider: UISlider!
     @IBOutlet weak var levelLb: UILabel!
     @IBOutlet weak var radiusLb: UILabel!
-    @IBOutlet weak var durationLb: UILabel!
+    @IBOutlet weak var nextLevelLb: UILabel!
+    @IBOutlet weak var levelTitleLb: UILabel!
+    @IBOutlet weak var nextLevelTitleLb: UILabel!
     @IBOutlet weak var rainCheckBox: BEMCheckBox!
     @IBOutlet weak var tidesCheckBox: BEMCheckBox!
     @IBOutlet weak var drainageCheckBox: BEMCheckBox!
@@ -44,10 +46,11 @@ class SubmitDetailsViewController: BaseViewController {
     var placeName = ""
     var didChooseImage = false
     var isEditingImage = false
+    var isWaterLevelWarning = false
     var radius: Int?
     var level: Int?
     var reasons: Int?
-    var duration: Int?
+    var nextLevel: Int?
     var submitData: Dictionary<String,Any> = [:]
     var response: PostEventResponse?
     {
@@ -70,7 +73,7 @@ class SubmitDetailsViewController: BaseViewController {
         didSet{
             let token = UserDefaults.standard.string(forKey: "Token")
             if trafficImage != nil {
-                self.postImage(data: UIImageJPEGRepresentation(trafficImage!, 0.7)!, eventID: (submitResponse?.id)!, token: token!)
+                self.postImage(data: UIImageJPEGRepresentation(trafficImage!, 0.08)!, eventID: (submitResponse?.id)!, token: token!)
             } else {
                 self.hideLoading()
                 NotificationCenter.default.post(name: NSNotification.Name("CloseSubmitView"), object: nil)
@@ -101,6 +104,12 @@ class SubmitDetailsViewController: BaseViewController {
         imageView.layer.cornerRadius = 15
         imageView.clipsToBounds = true
         
+        //check boxes
+        rainCheckBox.boxType = .square
+        tidesCheckBox.boxType = .square
+        drainageCheckBox.boxType = .square
+        otherCheckBox.boxType = .square
+    
         // shadow
         shadowView.layer.shadowColor = UIColor.black.cgColor
         shadowView.layer.shadowOffset = CGSize(width: 3, height: 3)
@@ -113,10 +122,10 @@ class SubmitDetailsViewController: BaseViewController {
         //monitor slider value change
         radiusSlider.isContinuous = true
         levelSlider.isContinuous = true
-        durationSlider.isContinuous = true
+        nextLevelSlider.isContinuous = true
         radiusSlider.addTarget(self, action: #selector(radiusValueChanged), for: .valueChanged)
         levelSlider.addTarget(self, action: #selector(levelValueChanged), for: .valueChanged)
-        durationSlider.addTarget(self, action: #selector(durationValueChanged), for: .valueChanged)
+        nextLevelSlider.addTarget(self, action: #selector(nextLevelValueChanged), for: .valueChanged)
         
         let a = Float(radius!) / 200.0
         radiusSlider.setValue(a, animated: false)
@@ -126,9 +135,9 @@ class SubmitDetailsViewController: BaseViewController {
         levelSlider.setValue(30/300, animated: false)
         levelLb.text = "\(level!)"
         
-        duration = 10
-        durationSlider.setValue(10/240, animated: false)
-        durationLb.text = "\(duration!)"
+        nextLevel = -1
+        nextLevelSlider.setValue(0/240, animated: false)
+        nextLevelLb.text = "0"
     }
     
     func radiusValueChanged()
@@ -141,13 +150,44 @@ class SubmitDetailsViewController: BaseViewController {
     {
         level = Int(Double(levelSlider.value) * 300)
         levelLb.text = String(describing: level!)
-        
+        if level! > 100 {
+            if !isWaterLevelWarning {
+                let alert = UIAlertController(title: "Warning!", message: "The water level is exceeding normal value. Please make sure you are choosing exactly!", preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+                self.present(alert, animated: true, completion: nil)
+                isWaterLevelWarning = true
+            }
+            
+            levelSlider.tintColor = UIColor.red
+            levelLb.textColor = UIColor.red
+            levelTitleLb.textColor = UIColor.red
+        } else {
+            levelSlider.tintColor = self.view.tintColor
+            levelLb.textColor = UIColor.black
+            levelTitleLb.textColor = UIColor.black
+        }
     }
     
-    func durationValueChanged()
+    func nextLevelValueChanged()
     {
-        duration = Int(Double(durationSlider.value) * 240)
-        durationLb.text = String(describing: duration!)
+        nextLevel = Int(Double(nextLevelSlider.value) * 300)
+        nextLevelLb.text = String(describing: nextLevel!)
+        if nextLevel! > 100 {
+            if !isWaterLevelWarning {
+                let alert = UIAlertController(title: "Warning!", message: "The water level is exceeding normal value. Please make sure you are choosing exactly!", preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+                self.present(alert, animated: true, completion: nil)
+                isWaterLevelWarning = true
+            }
+            
+            nextLevelSlider.tintColor = UIColor.red
+            nextLevelLb.textColor = UIColor.red
+            nextLevelTitleLb.textColor = UIColor.red
+        } else {
+            nextLevelSlider.tintColor = self.view.tintColor
+            nextLevelLb.textColor = UIColor.black
+            nextLevelTitleLb.textColor = UIColor.black
+        }
     }
     
     func getDistrict()
@@ -155,16 +195,13 @@ class SubmitDetailsViewController: BaseViewController {
         let districts = DataMgr.shared.districts
         for x in districts
         {
-            var title = "\(x.title),"
+            let title = "\(x.title),"
             if placeName.range(of: title) != nil
             {
                 district = x.id
                 return
             }
         }
-        let alert = UIAlertController(title: "Chú ý!", message: "Không thể tìm thấy quận. Vui lòng chọn lại!", preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-        self.present(alert, animated: true, completion: nil)
     }
     
     func getReasons()
@@ -235,36 +272,11 @@ class SubmitDetailsViewController: BaseViewController {
     }
     
     func handleCameraOpening() {
-        let alert = UIAlertController(title: "", message: nil, preferredStyle: .actionSheet)
-        
-        // Change Message With Color and Font
-        let alertMsg  = "Description Image"
-        var myMutableString = NSMutableAttributedString()
-        myMutableString = NSMutableAttributedString(string: alertMsg as String, attributes: [NSFontAttributeName: UIFont.boldSystemFont(ofSize: 18)])
-        myMutableString.addAttribute(NSForegroundColorAttributeName, value: UIColor(white: 34.0 / 255.0, alpha: 1.0), range: NSRange(location: 0, length: alertMsg.characters.count))
-        alert.setValue(myMutableString, forKey: "attributedTitle")
-        
-        alert.addAction(UIAlertAction(title: "Camera", style: .default, handler: {
-            action in
-            let imagePicker = UIImagePickerController()
-            imagePicker.delegate = self
-            imagePicker.sourceType = .camera
-            imagePicker.allowsEditing = false
-            self.present(imagePicker, animated: true, completion: nil)
-        }))
-        
-        alert.addAction(UIAlertAction(title: "Gallery", style: .default, handler: {
-            action in
-            let imagePicker = UIImagePickerController()
-            imagePicker.delegate = self
-            
-            imagePicker.sourceType = .photoLibrary
-            imagePicker.allowsEditing = false
-            self.present(imagePicker, animated: true, completion: nil)
-        }))
-        
-        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
-        self.present(alert, animated: true, completion: nil)
+        let imagePicker = UIImagePickerController()
+        imagePicker.delegate = self
+        imagePicker.sourceType = .camera
+        imagePicker.allowsEditing = false
+        self.present(imagePicker, animated: true, completion: nil)
     }
     
     @IBAction func cameraPressed(_ sender: Any) {
@@ -281,17 +293,23 @@ class SubmitDetailsViewController: BaseViewController {
     }
     
     @IBAction func confirmPressed(_ sender: Any) {
-        self.showLoading()
-        getDistrict()
-        getReasons()
-        duration = duration! * 60
-        let token = UserDefaults.standard.string(forKey: "Token")
-        let userID = UserDefaults.standard.string(forKey: "UserID")
-        submitData = ["userId": userID!,"name": placeName, "latitude": Float((start_coor?.latitude)!),"longitude": Float((start_coor?.longitude)!), "water_level": level!,"radius": radius!,"estimated_duration": duration!,"reasons": reasons!]
-        ServiceHelpers.postEvent(param: submitData, token: (token)!) { (response) in
-            self.response = response
-            
+        if nextLevel == -1 {
+            let alert = UIAlertController(title: "Warning!", message: "Please choose next water level in 5 minutes", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+            self.present(alert, animated: true, completion: nil)
+        } else {
+            self.showLoading()
+            getDistrict()
+            getReasons()
+            nextLevel = nextLevel! * 60
+            let token = UserDefaults.standard.string(forKey: "Token")
+            let userID = UserDefaults.standard.string(forKey: "UserID")
+            submitData = ["userId": userID!,"name": placeName, "latitude": Float((start_coor?.latitude)!),"longitude": Float((start_coor?.longitude)!), "water_level": level!,"radius": radius!,"estimated_next_level": nextLevel!,"reasons": reasons!]
+            ServiceHelpers.postEvent(param: submitData, token: (token)!) { (response) in
+                self.response = response
+            }
         }
+        
     }
     
     

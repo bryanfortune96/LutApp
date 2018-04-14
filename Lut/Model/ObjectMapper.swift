@@ -155,7 +155,7 @@ class EventDetailsObject: NSObject, Mappable {
     var level: Int?
     var radius: Int?
     var reasons: Int?
-    var duration: Int?
+    var nextLevel: Int?
     var updatedAt: String?
     var createdAt: String?
     var district: Int?
@@ -181,7 +181,7 @@ class EventDetailsObject: NSObject, Mappable {
         radius <- map["radius"]
         level <- map["water_level"]
         reasons <- map["reasons"]
-        duration <- map["estimated_duration"] 
+        nextLevel <- map["estimated_next_level"]
         updatedAt <- map["updated_at"]
         createdAt <- map["created_at"]
         district <- map["district"]

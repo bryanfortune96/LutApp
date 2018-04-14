@@ -12,6 +12,8 @@ import GooglePlaces
 import Alamofire
 import SDWebImage
 
+let CIRCLE_ALPHA: CGFloat = 0.4
+
 class HomeViewController: BaseViewController,UITableViewDelegate,UITableViewDataSource {
 
     @IBOutlet weak var distanceLb: UILabel!
@@ -123,16 +125,16 @@ class HomeViewController: BaseViewController,UITableViewDelegate,UITableViewData
             }
         }
     }
-    var response: ClusterListResponse?
+    var getClusterResponse: ClusterListResponse?
     {
         didSet{
             self.hideLoading()
-            if (response?.success)!
+            if (getClusterResponse?.success)!
             {
-                self.traffic = (response?.data)!
+                self.traffic = (getClusterResponse?.data)!
             }
             else{
-                let alert = UIAlertController(title: "Warning!", message: response?.message, preferredStyle: .alert)
+                let alert = UIAlertController(title: "Warning!", message: getClusterResponse?.message, preferredStyle: .alert)
                 alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
                 self.present(alert, animated: true, completion: nil)
             }
@@ -182,8 +184,8 @@ class HomeViewController: BaseViewController,UITableViewDelegate,UITableViewData
                                                object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(afterSubmit), name: NSNotification.Name("CloseSubmitView"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(upVoteEvent(_:)), name: NSNotification.Name("VoteTrafficInfo"), object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(animationStartup), name: NSNotification.Name("LoginDismissed"), object: nil)
- 
+        NotificationCenter.default.addObserver(self, selector: #selector(afterLogin), name: NSNotification.Name("LoginDismissed"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(loadDB), name: NSNotification.Name("CloseDetailScreen"), object: nil)
 
         // Do any additional setup after loading the view.
     }
@@ -200,7 +202,7 @@ class HomeViewController: BaseViewController,UITableViewDelegate,UITableViewData
             userNameLb.text = UserDefaults.standard.string(forKey: "UserName")
         }
         
-        loadDB()
+        //loadDB()
     }
     
     override func didReceiveMemoryWarning() {
@@ -251,7 +253,7 @@ class HomeViewController: BaseViewController,UITableViewDelegate,UITableViewData
         {
             self.showLoading()
             ServiceHelpers.getEventList(userID: userID){ (response) in
-                self.response = response
+                self.getClusterResponse = response
             }
             ServiceHelpers.getUser(userID: userID, token: token){(response) in
                 self.userResponse = response
@@ -259,7 +261,7 @@ class HomeViewController: BaseViewController,UITableViewDelegate,UITableViewData
         }
         else{
             ServiceHelpers.getEventList(userID: "-1"){ (response) in
-                self.response = response
+                self.getClusterResponse = response
             }
         }
         
@@ -352,8 +354,6 @@ class HomeViewController: BaseViewController,UITableViewDelegate,UITableViewData
     {
         radius = Int(Double(radiusSlider.value) * 200)
         radiusLb.text = "\(String(describing: radius!)) m"
-        
-        
     }
     
     func openAccount()
@@ -542,20 +542,19 @@ class HomeViewController: BaseViewController,UITableViewDelegate,UITableViewData
             circ.fillColor = UIColor(red: 0, green: 0, blue: 1, alpha: 0.1)
             circ.strokeColor = UIColor.blue
         case 0...10:
-            circ.fillColor = UIColor(red: 1, green: 1, blue: 0, alpha: 0.1)
+            circ.fillColor = UIColor(red: 1, green: 1, blue: 0, alpha: CIRCLE_ALPHA)
             //circ.strokeColor = UIColor.yellow
         case 11...50:
-            circ.fillColor = UIColor(red: 1, green: 128/255, blue: 0, alpha: 0.1)
+            circ.fillColor = UIColor(red: 1, green: 128/255, blue: 0, alpha: CIRCLE_ALPHA)
             //circ.strokeColor = UIColor.orange
         case 51...100:
-            circ.fillColor = UIColor(red: 1, green: 0, blue: 0, alpha: 0.1)
+            circ.fillColor = UIColor(red: 1, green: 0, blue: 0, alpha: CIRCLE_ALPHA)
             //circ.strokeColor = UIColor.red
         case 100...300:
-            circ.fillColor = UIColor(red: 0.6, green: 0.4, blue: 0.2, alpha: 0.1)
+            circ.fillColor = UIColor(red: 0.6, green: 0.4, blue: 0.2, alpha: CIRCLE_ALPHA)
             //circ.strokeColor = UIColor.brown
         default:
             break
-            
         }
   
         circ.strokeWidth = 3
@@ -641,7 +640,7 @@ class HomeViewController: BaseViewController,UITableViewDelegate,UITableViewData
         UserDefaults.standard.set("", forKey: "Address")
         UserDefaults.standard.set("", forKey: "Token")
         UserDefaults.standard.set("", forKey: "UserID")
-
+        avatarImgView.image = #imageLiteral(resourceName: "user")
     }
     
     ////Button actions
@@ -778,6 +777,7 @@ class HomeViewController: BaseViewController,UITableViewDelegate,UITableViewData
         if stageOfSubmission == 1
         {
             closeSubmitView()
+            loadDB()
         }
         else
         {
@@ -830,23 +830,27 @@ class HomeViewController: BaseViewController,UITableViewDelegate,UITableViewData
             vc.start_coor = sourceCoordinate
             self.present(vc, animated: true, completion: nil)
         }
-        
     }
     
     func afterSubmit()
     {
-        closeSubmitView()
+        self.closeSubmitView()
         DispatchQueue.global().asyncAfter(deadline: .now() + 0.5, execute: {
             let alert = UIAlertController(title: "Thank you!", message: "Successfully Updated.Thank you for your contribution!", preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { UIlertAction in
+                self.loadDB()
+            }))
             self.present(alert, animated: true, completion: nil)
         })
     }
     
-    @objc func animationStartup() {
+    @objc func afterLogin() {
+        if getClusterResponse != nil {
+            self.hideLoading()
+        }
         self.startAnimate()
     }
-    
+
     func startAnimate() {
         self.gpsButtConstraint.constant = 10
         self.layerButtConstraint.constant = 10
@@ -859,7 +863,7 @@ class HomeViewController: BaseViewController,UITableViewDelegate,UITableViewData
     
     @objc func closeSubmitView()
     {
-        loadDB()
+        mapView.clear()
         sourceCoordinate = nil
         directionLine?.map = nil
         sourceMarker?.map = nil
@@ -877,7 +881,6 @@ class HomeViewController: BaseViewController,UITableViewDelegate,UITableViewData
         UIView.animate(withDuration: 0.75, animations: {
             self.view.layoutIfNeeded()
         })
-        
     }
     
     

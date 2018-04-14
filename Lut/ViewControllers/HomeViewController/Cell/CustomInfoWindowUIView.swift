@@ -15,7 +15,7 @@ class CustomInfoWindowUIView: UIView {
     @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var radiusLb: UILabel!
     @IBOutlet weak var levelLb: UILabel!
-    @IBOutlet weak var durationLb: UILabel!
+    @IBOutlet weak var nextLevelLb: UILabel!
     @IBOutlet weak var pointLb: UILabel!
     @IBOutlet weak var nameLb: MarqueeLabel!
     @IBOutlet weak var userLb: UILabel!
@@ -30,7 +30,6 @@ class CustomInfoWindowUIView: UIView {
         self.trafficInfo = trafficInfo
         setupContentView()
         setupObserver()
-    
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -47,29 +46,32 @@ class CustomInfoWindowUIView: UIView {
         let date = dateFormatter.date(from: (trafficInfo?.updatedAt)!)
         let time = Helpers.timeAgoSinceDate(date: date! as NSDate, numericDates: false)
         let array = Helpers.getReasons(reasons: (trafficInfo?.reasons)!)
-        var text = ""
+        var reasonsText = ""
         if array.count != 0 {
             for i in 0...array.count - 1
             {
                 if i == array.count - 1
                 {
-                    text.append("\(array[i])")
+                    reasonsText.append("\(array[i])")
                 }
                 else
                 {
-                    text.append("\(array[i]) ,")
+                    reasonsText.append("\(array[i]) ,")
                 }
             }
         }
+        let authorText = trafficInfo?.author?.nickname != ""
+            ? (trafficInfo?.author?.nickname)! : (trafficInfo?.author?.email)!
+        
         contentView.starRatingView.settings.starSize = 30.0
-        contentView.reasonLb.text = "Causes: \(text)"
+        contentView.reasonLb.text = "Causes: \(reasonsText)"
         contentView.radiusLb.text = "\(String(describing: (trafficInfo?.radius)!))m"
         contentView.levelLb.text = "\(String(describing: (trafficInfo?.level)!))cm"
-        contentView.durationLb.text = "\((trafficInfo?.duration)!/60)min"
+        contentView.nextLevelLb.text = "\((trafficInfo?.nextLevel)!/60)cm"
         contentView.dateLb.text = "\(time)"
-        contentView.userLb.text = "updated by \((trafficInfo?.author?.nickname)!)"
-        contentView.nameLb.text = trafficInfo?.name!
-        contentView.pointLb.text = "\(String(describing: (trafficInfo?.points?.points)!))/5"
+        contentView.userLb.text = "updated by \(authorText)"
+        contentView.nameLb.text = "\((trafficInfo?.name)!)                 "
+        contentView.pointLb.text = "\(String(describing: roundPoint(point: (trafficInfo?.points?.points)!)))/5"
         if !(trafficInfo?.imagePaths?.isEmpty)! {
             contentView.imageView.sd_setImage(with: NSURL(string: (trafficInfo?.imagePaths![0])!) as URL?, placeholderImage: #imageLiteral(resourceName: "user"), options: [.refreshCached])
         }
@@ -91,8 +93,8 @@ class CustomInfoWindowUIView: UIView {
     }
     
     private func didFinishTouchingRatingView(_ rating: Double) {
-        print(rating)
-        NotificationCenter.default.post(name: NSNotification.Name("VoteTrafficInfo"), object: nil, userInfo: ["rating": rating, "eventID": (trafficInfo?.id)!])
+        print(rating/5)
+        NotificationCenter.default.post(name: NSNotification.Name("VoteTrafficInfo"), object: nil, userInfo: ["rating": rating/5, "eventID": (trafficInfo?.id)!])
     }
         
     private func checkIfEventBelongsToCurrentUser(authorId: String) -> Bool  {
@@ -107,11 +109,10 @@ class CustomInfoWindowUIView: UIView {
         let score = notification.userInfo!["score"] as! Double
         if !checkIfEventBelongsToCurrentUser(authorId: (trafficInfo?.author?.id)!) {
             showVotedStars()
-            pointLb.text = "\(score)/5"
+            contentView.pointLb.text = "\(roundPoint(point: score))/5"
         } else {
             showUnvotedStars()
         }
-        
     }
     
     private func showVotedStars() {
@@ -120,6 +121,10 @@ class CustomInfoWindowUIView: UIView {
     
     private func showUnvotedStars() {
         contentView.starRatingView.rating = 0.0
+    }
+    
+    private func roundPoint(point: Double) -> Double {
+        return Double(round(100*point)/100)
     }
     /*
     // Only override draw() if you perform custom drawing.

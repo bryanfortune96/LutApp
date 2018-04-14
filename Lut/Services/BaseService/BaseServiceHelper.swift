@@ -22,7 +22,7 @@ class BaseServiceHelper: NSObject {
     }
     
     static func handleBFTask (task: BFTask<AnyObject>, callback: @escaping ( _ result: BFTask<AnyObject>, _ error: NSError?) -> Void) {
-        task.continue({ (t) -> Any? in
+        task.continueWith(block: { (t) -> Any? in
             if t.error != nil {
                 let code = (t.error! as NSError).code
                 if code == 401 {
