@@ -15,19 +15,22 @@ import MBProgressHUD
 import IQKeyboardManager
 import COSTouchVisualizer
 
+let TAP_COLOR = UIColor.black
+let DRAG_COLOR = UIColor.clear
+
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate, COSTouchVisualizerWindowDelegate {
 
     lazy var window: UIWindow? = {
         var customWindow = COSTouchVisualizerWindow(frame: UIScreen.main.bounds)
         
-        customWindow.fillColor = UIColor.purple
-        customWindow.strokeColor = UIColor.blue
-        customWindow.touchAlpha = 0.4;
+        customWindow.fillColor = TAP_COLOR
+        customWindow.strokeColor = TAP_COLOR
+        customWindow.touchAlpha = 0.5
         
-        customWindow.rippleFillColor = UIColor.purple
-        customWindow.rippleStrokeColor = UIColor.blue
-        customWindow.touchAlpha = 0.1;
+        customWindow.rippleFillColor = DRAG_COLOR
+        customWindow.rippleStrokeColor = DRAG_COLOR
+        customWindow.touchAlpha = 0.1
         
         customWindow.touchVisualizerWindowDelegate = self
         return customWindow
@@ -46,7 +49,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, COSTouchVisualizerWindowD
         }
     }
     
-
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         
         UserDefaults.standard.register(defaults: ["BitMask": 2])
@@ -64,7 +66,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, COSTouchVisualizerWindowD
         
         GMSServices.provideAPIKey(Strings.mapAPIKey)
         GMSPlacesClient.provideAPIKey(Strings.placesAPIKey)
-        window = UIWindow.init(frame: UIScreen.main.bounds)
+        //window = UIWindow.init(frame: UIScreen.main.bounds)
         loadVC()
         
         window?.rootViewController = self.viewcontroller
@@ -77,10 +79,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, COSTouchVisualizerWindowD
         
         // Override point for customization after application launch.
 
-        return true
-    }
-    
-    func touchVisualizerWindowShouldAlwaysShowFingertip(_ window: COSTouchVisualizerWindow!) -> Bool {
         return true
     }
 
@@ -128,8 +126,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, COSTouchVisualizerWindowD
         //listTab.setFinishedSelectedImage(#imageLiteral(resourceName: "nav_listSelected_icon"), withFinishedUnselectedImage: #imageLiteral(resourceName: "nav_listUnselected_icon"))
         rankTab.setFinishedSelectedImage(#imageLiteral(resourceName: "nav_rankSelected_icon"), withFinishedUnselectedImage: #imageLiteral(resourceName: "nav_rankUnselected_icon"))
 
-        
-
+    }
+    
+    func touchVisualizerWindowShouldAlwaysShowFingertip(_ window: COSTouchVisualizerWindow!) -> Bool {
+        return true
     }
     
     func hideLoading(){

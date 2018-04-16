@@ -76,7 +76,7 @@
                     <nil key="highlightedColor"/>
                 </label>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nnE-NG-pw8" customClass="CosmosView" customModule="Cosmos">
-                    <rect key="frame" x="162" y="420" width="133" height="40"/>
+                    <rect key="frame" x="162" y="422" width="133" height="40"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="133" id="Xbt-Ea-79f"/>
@@ -144,7 +144,7 @@
                 <constraint firstItem="U01-Am-dkt" firstAttribute="leading" secondItem="1mS-dn-j8b" secondAttribute="leading" id="lt4-rh-Kq3"/>
                 <constraint firstItem="U01-Am-dkt" firstAttribute="centerY" secondItem="hHh-zj-fnW" secondAttribute="centerY" id="lzs-Ls-cdr"/>
                 <constraint firstItem="wnt-WS-TxT" firstAttribute="centerY" secondItem="vWe-G9-lAN" secondAttribute="centerY" id="mQo-Yr-ePJ"/>
-                <constraint firstItem="nnE-NG-pw8" firstAttribute="centerY" secondItem="hHh-zj-fnW" secondAttribute="centerY" id="nKN-xF-va8"/>
+                <constraint firstItem="nnE-NG-pw8" firstAttribute="centerY" secondItem="hHh-zj-fnW" secondAttribute="centerY" constant="2" id="nKN-xF-va8"/>
                 <constraint firstItem="1mS-dn-j8b" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="15" id="nWn-32-9ai"/>
                 <constraint firstAttribute="trailing" secondItem="nnE-NG-pw8" secondAttribute="trailing" constant="41" id="pHe-P4-CmM"/>
                 <constraint firstAttribute="trailing" secondItem="1mS-dn-j8b" secondAttribute="trailing" constant="15" id="vY7-CC-ibz"/>

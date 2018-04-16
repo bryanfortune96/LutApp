@@ -10,7 +10,7 @@ import UIKit
 import Alamofire
 import SDWebImage
 
-let IMAGE_COMPRESSION_QUALITY: CGFloat = 0.1
+let AVATAR_COMPRESSION_QUALITY: CGFloat = 0.1
 class AccountViewController: BaseViewController {
 
     @IBOutlet weak var imageView: UIImageView!
@@ -56,7 +56,7 @@ class AccountViewController: BaseViewController {
                     let userID = UserDefaults.standard.string(forKey: "UserID")
                     //                    imageResponse = FormDataServiceHelpers.postAvatar(data: UIImageJPEGRepresentation(self.avatarImage!, 0.7)!, userID: userID!, token: token!)
                     //                    FormDataServiceHelpers.postAvatar(data: UIImageJPEGRepresentation(self.avatarImage!, 0.7)!, userID: userID!, token: token!)
-                    self.postAvatar(data: UIImageJPEGRepresentation(self.avatarImage!, IMAGE_COMPRESSION_QUALITY)!, userID: userID!, token: token!)
+                    self.postAvatar(data: UIImageJPEGRepresentation(self.avatarImage!, AVATAR_COMPRESSION_QUALITY)!, userID: userID!, token: token!)
                 } else {
                     self.hideLoading()
                     self.showSuccess()
@@ -79,7 +79,7 @@ class AccountViewController: BaseViewController {
                 let token = UserDefaults.standard.string(forKey: "Token")
                 let userID = UserDefaults.standard.string(forKey: "UserID")
                 //                imageResponse = FormDataServiceHelpers.postAvatar(data: UIImageJPEGRepresentation(self.avatarImage!, 0.7)!, userID: userID!, token: token!)
-                self.postAvatar(data: UIImageJPEGRepresentation(self.avatarImage!, IMAGE_COMPRESSION_QUALITY)!, userID: userID!, token: token!)
+                self.postAvatar(data: UIImageJPEGRepresentation(self.avatarImage!, AVATAR_COMPRESSION_QUALITY)!, userID: userID!, token: token!)
             } else {
                 self.hideLoading()
                 self.showSuccess()

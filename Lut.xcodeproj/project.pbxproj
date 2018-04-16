@@ -108,6 +108,7 @@
 		2165A8CC20596CF20043AE5E /* CustomAlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomAlertView.swift; sourceTree = "<group>"; };
 		2165A8CE205970BB0043AE5E /* CustomInfoWindowUIView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CustomInfoWindowUIView.xib; sourceTree = "<group>"; };
 		21664282204B03D80045B146 /* BaseViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
+		216B4DBF20830F3B00DBA969 /* Fingertips.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Fingertips.framework; path = ../../Fingertips.framework; sourceTree = "<group>"; };
 		219835FD1FC5DE8C002D49A9 /* Lut.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Lut.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		219836111FC5DE8C002D49A9 /* LutTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LutTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		219836151FC5DE8C002D49A9 /* LutTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LutTests.swift; sourceTree = "<group>"; };
@@ -557,6 +558,7 @@
 		4CB63F9EE9761A1FFB87279D /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				216B4DBF20830F3B00DBA969 /* Fingertips.framework */,
 				63FAB406BC876B998924FF00 /* Pods_Lut.framework */,
 				2DA106E8BA683DCAA09A7D94 /* Pods_LutTests.framework */,
 				039CDA1E60009DF3B919F819 /* Pods_LutUITests.framework */,
@@ -840,6 +842,7 @@
 				"${BUILT_PRODUCTS_DIR}/Bolts/Bolts.framework",
 				"${BUILT_PRODUCTS_DIR}/COSTouchVisualizer/COSTouchVisualizer.framework",
 				"${BUILT_PRODUCTS_DIR}/Cosmos/Cosmos.framework",
+				"${BUILT_PRODUCTS_DIR}/Fingertips/Fingertips.framework",
 				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework",
 				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac/GoogleToolboxForMac.framework",
 				"${BUILT_PRODUCTS_DIR}/IQKeyboardManager/IQKeyboardManager.framework",
@@ -862,6 +865,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Bolts.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/COSTouchVisualizer.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Cosmos.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Fingertips.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMSessionFetcher.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleToolboxForMac.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/IQKeyboardManager.framework",
