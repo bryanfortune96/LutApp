@@ -163,7 +163,7 @@ class EventDetailsObject: NSObject, Mappable {
     var points: PointsObject?
     var alreadyVoted: Bool?
     var validity: Double?
-    var votedScore: Double?
+    var votedScore: Double? = 3.0
     
     public required init?(map: Map) {
     }
@@ -189,7 +189,6 @@ class EventDetailsObject: NSObject, Mappable {
         points <- map["Point"]
         alreadyVoted <- map["isUpvoted"]
         validity <- map["validity"]
-        votedScore <- map["votedScore"]
     }
 }
 

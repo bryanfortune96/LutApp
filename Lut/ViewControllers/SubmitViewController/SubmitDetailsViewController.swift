@@ -14,7 +14,7 @@ import Alamofire
 
 let SCREEN_WIDTH = UIScreen.main.bounds.width
 let SCREEN_HEIGHT = UIScreen.main.bounds.height
-let IMAGE_COMPRESSION_QUALITY: CGFloat = 0.05
+
 class SubmitDetailsViewController: BaseViewController {
     
     @IBOutlet weak var imageBottomConstraint: NSLayoutConstraint!
@@ -73,7 +73,7 @@ class SubmitDetailsViewController: BaseViewController {
         didSet{
             let token = UserDefaults.standard.string(forKey: "Token")
             if trafficImage != nil {
-                self.postImage(data: UIImageJPEGRepresentation(trafficImage!, IMAGE_COMPRESSION_QUALITY)!, eventID: (submitResponse?.id)!, token: token!)
+                self.postImage(data: UIImageJPEGRepresentation(trafficImage!, 0.08)!, eventID: (submitResponse?.id)!, token: token!)
             } else {
                 self.hideLoading()
                 NotificationCenter.default.post(name: NSNotification.Name("CloseSubmitView"), object: nil)

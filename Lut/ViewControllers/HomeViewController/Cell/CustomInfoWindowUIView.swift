@@ -80,7 +80,7 @@ class CustomInfoWindowUIView: UIView {
         showUnvotedStars()
         if (trafficInfo?.alreadyVoted!)! {
             showVotedStars()
-            contentView.starRatingView.rating = trafficInfo!.votedScore! * 5
+            contentView.starRatingView.rating = trafficInfo!.votedScore!
         }
         
         contentView.starRatingView.settings.filledBorderColor = UIColor.orange
@@ -109,11 +109,7 @@ class CustomInfoWindowUIView: UIView {
         let score = notification.userInfo!["score"] as! Double
         if !checkIfEventBelongsToCurrentUser(authorId: (trafficInfo?.author?.id)!) {
             showVotedStars()
-            if !(trafficInfo?.alreadyVoted)! {
-                contentView.pointLb.text = "\(roundPoint(point: score))/5"
-            } else {
-                contentView.starRatingView.rating = trafficInfo!.votedScore! * 5
-            }
+            contentView.pointLb.text = "\(roundPoint(point: score))/5"
         } else {
             showUnvotedStars()
         }
