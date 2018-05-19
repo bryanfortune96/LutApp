@@ -2,9 +2,7 @@
 //  HomeViewController.swift
 //  Banana
 //
-//  Created by TQM on 9/9/17.
-//  Copyright © 2017 Minh Tran. All rights reserved.
-//
+
 
 import UIKit
 import GoogleMaps
@@ -21,7 +19,6 @@ class HomeViewController: BaseViewController,UITableViewDelegate,UITableViewData
     @IBOutlet weak var submitView2Constraint: NSLayoutConstraint!
     @IBOutlet weak var submitViewConstraint: NSLayoutConstraint!
     @IBOutlet weak var densBoardConstraint: NSLayoutConstraint!
-    @IBOutlet weak var layerButtConstraint: NSLayoutConstraint!
     @IBOutlet weak var gpsButtConstraint: NSLayoutConstraint!
     @IBOutlet weak var submitButtConstraint: NSLayoutConstraint!
     @IBOutlet weak var distanceLbConstraint: NSLayoutConstraint!
@@ -131,7 +128,7 @@ class HomeViewController: BaseViewController,UITableViewDelegate,UITableViewData
             self.hideLoading()
             if (getClusterResponse?.success)!
             {
-                self.traffic = (getClusterResponse?.data)!
+                filterDataByFavorite(response: getClusterResponse!)
             }
             else{
                 let alert = UIAlertController(title: "Warning!", message: getClusterResponse?.message, preferredStyle: .alert)
@@ -140,7 +137,7 @@ class HomeViewController: BaseViewController,UITableViewDelegate,UITableViewData
             }
         }
     }
-    var traffic: [ClusterDetailsObject] = []
+    var traffics: [ClusterDetailsObject] = []
     {
         didSet{
             clearData()
@@ -186,6 +183,8 @@ class HomeViewController: BaseViewController,UITableViewDelegate,UITableViewData
         NotificationCenter.default.addObserver(self, selector: #selector(upVoteEvent(_:)), name: NSNotification.Name("VoteTrafficInfo"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(afterLogin), name: NSNotification.Name("LoginDismissed"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(loadDB), name: NSNotification.Name("CloseDetailScreen"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(loadDB), name: NSNotification.Name("AfterUpdateAvatar"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(loadDB), name: NSNotification.Name("AfterUpdateFavorite"), object: nil)
 
         // Do any additional setup after loading the view.
     }
@@ -201,8 +200,6 @@ class HomeViewController: BaseViewController,UITableViewDelegate,UITableViewData
         {
             userNameLb.text = UserDefaults.standard.string(forKey: "UserName")
         }
-        
-        //loadDB()
     }
     
     override func didReceiveMemoryWarning() {
@@ -211,9 +208,44 @@ class HomeViewController: BaseViewController,UITableViewDelegate,UITableViewData
     }
 
     
-    func appWillEnterForeground()
-    {
+    func appWillEnterForeground() {
         checkForGPS()
+    }
+    
+    func filterDataByFavorite(response: ClusterListResponse) {
+        var filterTraffics: [ClusterDetailsObject] = []
+        let allTraffics = (getClusterResponse?.data)!
+        let def = Int32(UserDefaults.standard.integer(forKey: "BitMask"))
+        DataMgr.shared.updateDistrict(districtsBitMask: def)
+        let districts = DataMgr.shared.getDistricts()
+        if districts[0].isFavorite {
+            traffics = allTraffics
+        } else {
+            for cluster in allTraffics {
+                for district in districts {
+                    if getDistrict(placeName: cluster.eventList![0].name!) == district.id && district.isFavorite {
+                        filterTraffics.append(cluster)
+                    }
+                }
+            }
+            traffics = filterTraffics
+        }
+    }
+    
+    func getDistrict(placeName: String) -> Int
+    {
+        let districts = DataMgr.shared.districts
+        var district: Int = 0
+        for x in districts
+        {
+            let title = "\(x.title),"
+            if placeName.range(of: title) != nil
+            {
+                district = x.id!
+            }
+        }
+        
+        return district
     }
     
     func moveToPlace()
@@ -259,12 +291,11 @@ class HomeViewController: BaseViewController,UITableViewDelegate,UITableViewData
                 self.userResponse = response
             }
         }
-        else{
-            ServiceHelpers.getEventList(userID: "-1"){ (response) in
+        else {
+            ServiceHelpers.getEventList(userID: "-1") { (response) in
                 self.getClusterResponse = response
             }
         }
-        
     }
 
     func checkForGPS()
@@ -345,7 +376,6 @@ class HomeViewController: BaseViewController,UITableViewDelegate,UITableViewData
         radiusLb.text = "\(radius!) m"
         
         self.gpsButtConstraint.constant = -50
-        self.layerButtConstraint.constant = -50
         self.submitButtConstraint.constant = -50
         self.densBoardConstraint.constant = -150
     }
@@ -403,12 +433,13 @@ class HomeViewController: BaseViewController,UITableViewDelegate,UITableViewData
         {
             x.map = nil
         }
+        mapView.clear()
     }
     
     func updateTraffic()
     {
         //mapView.clear()
-        for x in traffic
+        for x in traffics
         {
             for y in x.eventList! {
                 let source = CLLocationCoordinate2D.init(latitude: CLLocationDegrees(y.startLatitude!), longitude: CLLocationDegrees(y.startLongtitude!))
@@ -648,7 +679,7 @@ class HomeViewController: BaseViewController,UITableViewDelegate,UITableViewData
         
         let camera = GMSCameraPosition.camera(withLatitude: userLatitude,
                                               longitude: userLongtitude,
-                                              zoom: 13.0)
+                                              zoom: 15.0)
         mapView.animate(to: camera)    }
     
     func moveToLocation(zoomLevel: Float)
@@ -744,7 +775,6 @@ class HomeViewController: BaseViewController,UITableViewDelegate,UITableViewData
             stageOfSubmission = 1
             self.submitViewConstraint.constant = 23
             self.gpsButtConstraint.constant = -50
-            self.layerButtConstraint.constant = -50
             self.submitButtConstraint.constant = -50
             self.densBoardConstraint.constant = -150
             UIView.animate(withDuration: 0.5, animations: {
@@ -853,7 +883,6 @@ class HomeViewController: BaseViewController,UITableViewDelegate,UITableViewData
 
     func startAnimate() {
         self.gpsButtConstraint.constant = 10
-        self.layerButtConstraint.constant = 10
         self.submitButtConstraint.constant = 10
         self.densBoardConstraint.constant = 10
         UIView.animate(withDuration: 0.5, animations: {
@@ -873,7 +902,6 @@ class HomeViewController: BaseViewController,UITableViewDelegate,UITableViewData
         submitPlaceName = ""
         stageOfSubmission = 0
         self.gpsButtConstraint.constant = 10
-        self.layerButtConstraint.constant = 10
         self.submitButtConstraint.constant = 10
         self.densBoardConstraint.constant = 10
         submitViewConstraint.constant = -150
@@ -982,7 +1010,7 @@ extension HomeViewController: GMSMapViewDelegate{
     }
     
     func mapView(_ mapView: GMSMapView, didTap marker: GMSMarker) -> Bool {
-        for x in traffic {
+        for x in traffics {
             for y in x.eventList! {
                 if marker.title == y.id {
                     let alert = CustomAlertView(trafficInfo: y)

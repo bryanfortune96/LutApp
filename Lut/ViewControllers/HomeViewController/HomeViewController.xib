@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -21,7 +21,6 @@
                 <outlet property="distanceLb" destination="g03-cp-WRW" id="DSq-9u-mUv"/>
                 <outlet property="distanceLbConstraint" destination="RPG-EM-PZH" id="VhO-3Z-vxy"/>
                 <outlet property="gpsButtConstraint" destination="nck-ek-z7O" id="P0N-wZ-QV4"/>
-                <outlet property="layerButtConstraint" destination="vTG-F8-AX8" id="EfS-dd-42E"/>
                 <outlet property="leadingConstraint" destination="gxx-hz-tcr" id="aYv-Ct-weT"/>
                 <outlet property="mapView" destination="Fi1-L7-01w" id="Vai-To-aEi"/>
                 <outlet property="menuView" destination="Di5-V4-QJy" id="EtS-J9-EbX"/>
@@ -103,19 +102,8 @@
                         <constraint firstAttribute="trailing" secondItem="ah7-Yd-5Wd" secondAttribute="trailing" constant="7" id="pvB-HL-BHL"/>
                     </constraints>
                 </view>
-                <button opaque="NO" alpha="0.80000001192092896" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XUS-mU-84C" userLabel="layerButt">
-                    <rect key="frame" x="320" y="610" width="45" height="45"/>
-                    <constraints>
-                        <constraint firstAttribute="height" constant="45" id="ldS-hh-FsY"/>
-                        <constraint firstAttribute="width" constant="45" id="rUa-M3-II8"/>
-                    </constraints>
-                    <state key="normal" image="layers_icon"/>
-                    <connections>
-                        <action selector="layerPressed:" destination="-1" eventType="touchUpInside" id="REc-A5-5pa"/>
-                    </connections>
-                </button>
                 <button opaque="NO" alpha="0.80000001192092896" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xx2-Mk-geX" userLabel="submitButt">
-                    <rect key="frame" x="320" y="520" width="45" height="45"/>
+                    <rect key="frame" x="320" y="552" width="45" height="45"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="45" id="hHN-zl-EZq"/>
                         <constraint firstAttribute="width" constant="45" id="laP-S0-8X4"/>
@@ -126,7 +114,7 @@
                     </connections>
                 </button>
                 <button opaque="NO" alpha="0.80000000000000004" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="doE-co-zxg" userLabel="gpsButt">
-                    <rect key="frame" x="320" y="565" width="45" height="45"/>
+                    <rect key="frame" x="320" y="597" width="45" height="45"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="45" id="H0b-XN-A6r"/>
                         <constraint firstAttribute="height" constant="45" id="nNv-4T-8AC"/>
@@ -163,7 +151,7 @@
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="MNE-X2-Mso">
                             <rect key="frame" x="0.0" y="0.0" width="272" height="203"/>
                             <subviews>
-                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="user" translatesAutoresizingMaskIntoConstraints="NO" id="yRJ-Ex-36x">
+                                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="user" translatesAutoresizingMaskIntoConstraints="NO" id="yRJ-Ex-36x">
                                     <rect key="frame" x="17" y="25" width="75" height="75"/>
                                     <constraints>
                                         <constraint firstAttribute="width" constant="75" id="Ia7-Ky-Bsk"/>
@@ -386,7 +374,7 @@
                                 <constraint firstItem="QFH-xS-3EK" firstAttribute="centerY" secondItem="IU7-k3-gQW" secondAttribute="centerY" id="PwI-Wa-Xzz"/>
                             </constraints>
                         </view>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Traffic map requires Location Enabled to define your position" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UVp-qn-jY7">
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Flood map requires Location Enabled to define your position" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UVp-qn-jY7">
                             <rect key="frame" x="10" y="73" width="220" height="61"/>
                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                             <nil key="textColor"/>
@@ -436,7 +424,6 @@
                 <constraint firstAttribute="bottom" secondItem="dNh-T3-4ij" secondAttribute="bottom" constant="-300" id="ASJ-AM-mKK"/>
                 <constraint firstAttribute="trailing" secondItem="xx2-Mk-geX" secondAttribute="trailing" constant="10" id="Avx-2u-aol"/>
                 <constraint firstItem="iI3-ff-hfk" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="62" id="Cdt-2Q-LNp"/>
-                <constraint firstItem="XUS-mU-84C" firstAttribute="top" secondItem="doE-co-zxg" secondAttribute="bottom" id="Ikm-4O-eQr"/>
                 <constraint firstAttribute="trailing" secondItem="kgA-Uz-NUX" secondAttribute="trailing" id="J9P-bt-7cZ"/>
                 <constraint firstAttribute="trailing" secondItem="CAa-9S-leO" secondAttribute="trailing" id="JTM-Kh-YGY"/>
                 <constraint firstAttribute="bottom" secondItem="CAa-9S-leO" secondAttribute="bottom" id="Jvp-Gu-enk"/>
@@ -446,7 +433,6 @@
                 <constraint firstItem="kgA-Uz-NUX" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="Pom-BT-bfp"/>
                 <constraint firstAttribute="trailing" secondItem="g03-cp-WRW" secondAttribute="trailing" constant="38" id="RPG-EM-PZH"/>
                 <constraint firstAttribute="trailing" secondItem="Fi1-L7-01w" secondAttribute="trailing" id="Smt-0r-M6G"/>
-                <constraint firstAttribute="bottom" secondItem="XUS-mU-84C" secondAttribute="bottom" constant="12" id="UhG-hI-DWi"/>
                 <constraint firstItem="gly-83-zeP" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="30" id="WPi-hO-6PE"/>
                 <constraint firstItem="dNh-T3-4ij" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="WTW-dT-AAV"/>
                 <constraint firstItem="CAa-9S-leO" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="XJc-XC-4y1"/>
@@ -465,8 +451,8 @@
                 <constraint firstAttribute="trailing" secondItem="doE-co-zxg" secondAttribute="trailing" constant="10" id="nck-ek-z7O"/>
                 <constraint firstItem="dWy-HP-3gj" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="nwb-fT-Y47"/>
                 <constraint firstItem="g03-cp-WRW" firstAttribute="top" secondItem="gly-83-zeP" secondAttribute="bottom" constant="10" id="oBN-ox-IsK"/>
+                <constraint firstAttribute="bottom" secondItem="doE-co-zxg" secondAttribute="bottom" constant="25" id="qqW-xE-kDp"/>
                 <constraint firstAttribute="bottom" secondItem="PmZ-0M-aSw" secondAttribute="bottom" constant="34" id="vSv-r3-KUn"/>
-                <constraint firstAttribute="trailing" secondItem="XUS-mU-84C" secondAttribute="trailing" constant="10" id="vTG-F8-AX8"/>
                 <constraint firstItem="doE-co-zxg" firstAttribute="top" secondItem="xx2-Mk-geX" secondAttribute="bottom" id="vcs-WP-Dv7"/>
                 <constraint firstItem="rdp-Rg-M76" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="20" id="w7E-Wg-EGd"/>
                 <constraint firstItem="dWy-HP-3gj" firstAttribute="centerY" secondItem="i5M-Pr-FkT" secondAttribute="centerY" id="x0G-ym-757"/>
@@ -495,7 +481,6 @@
         <image name="5star_icon" width="303" height="61"/>
         <image name="check-icon" width="25" height="20"/>
         <image name="cross_icon" width="21" height="21"/>
-        <image name="layers_icon" width="43" height="42"/>
         <image name="location_icon" width="37" height="37"/>
         <image name="logOut_icon" width="19" height="20"/>
         <image name="menu_icon" width="22" height="20"/>

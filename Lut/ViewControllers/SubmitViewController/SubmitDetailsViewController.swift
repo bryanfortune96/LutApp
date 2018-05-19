@@ -2,9 +2,7 @@
 //  SubmitDetailsViewController.swift
 //  Banana
 //
-//  Created by TQM on 9/23/17.
-//  Copyright © 2017 Minh Tran. All rights reserved.
-//
+
 
 import UIKit
 import MarqueeLabel

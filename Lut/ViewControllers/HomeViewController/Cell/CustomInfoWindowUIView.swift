@@ -2,9 +2,6 @@
 //  CustomInfoWindowUIView.swift
 //  Lut
 //
-//  Created by TQM on 11/28/17.
-//  Copyright © 2017 Minh Tran. All rights reserved.
-//
 
 import UIKit
 import MarqueeLabel

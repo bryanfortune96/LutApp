@@ -2,9 +2,7 @@
 //  LutTests.swift
 //  LutTests
 //
-//  Created by TQM on 11/22/17.
-//  Copyright © 2017 Minh Tran. All rights reserved.
-//
+
 
 import XCTest
 @testable import Lut
