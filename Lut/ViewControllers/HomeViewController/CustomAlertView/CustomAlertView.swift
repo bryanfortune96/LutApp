@@ -1,10 +1,7 @@
 //
 //  CustomAlertView.swift
 //  Lut
-//
-//  Created by TQM on 3/14/18.
-//  Copyright © 2018 Minh Tran. All rights reserved.
-//
+
 
 import Foundation
 import UIKit

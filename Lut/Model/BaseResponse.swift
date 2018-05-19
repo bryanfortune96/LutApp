@@ -2,9 +2,7 @@
 //  BaseResponse.swift
 //  Banana
 //
-//  Created by TQM on 10/10/17.
-//  Copyright © 2017 Minh Tran. All rights reserved.
-//
+
 
 import ObjectMapper
 
