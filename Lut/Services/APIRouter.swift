@@ -2,6 +2,9 @@
 //  APIRouter.swift
 //  Banana
 //
+//  Created by TQM on 10/8/17.
+//  Copyright © 2017 Minh Tran. All rights reserved.
+//
 
 import Alamofire
 import ObjectMapper

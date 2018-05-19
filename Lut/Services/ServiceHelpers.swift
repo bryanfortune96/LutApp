@@ -2,7 +2,9 @@
 //  ServiceHelpers.swift
 //  Banana
 //
-
+//  Created by TQM on 10/13/17.
+//  Copyright © 2017 Minh Tran. All rights reserved.
+//
 
 import UIKit
 import Foundation

@@ -1,7 +1,10 @@
 //
 //  FavoriteTableViewCell.swift
 //  Banana
-
+//
+//  Created by TQM on 10/5/17.
+//  Copyright © 2017 Minh Tran. All rights reserved.
+//
 
 import UIKit
 protocol FavoriteTapDelegate {

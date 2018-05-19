@@ -2,6 +2,9 @@
 //  RewardViewController.swift
 //  Banana
 //
+//  Created by TQM on 10/1/17.
+//  Copyright © 2017 Minh Tran. All rights reserved.
+//
 
 import UIKit
 

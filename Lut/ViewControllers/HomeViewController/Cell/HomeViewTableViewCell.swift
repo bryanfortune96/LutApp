@@ -2,6 +2,9 @@
 //  HomeViewTableViewCell.swift
 //  Banana
 //
+//  Created by TQM on 9/30/17.
+//  Copyright © 2017 Minh Tran. All rights reserved.
+//
 
 import UIKit
 

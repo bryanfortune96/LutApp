@@ -2,7 +2,9 @@
 //  FavoriteViewController.swift
 //  Banana
 //
-
+//  Created by TQM on 10/5/17.
+//  Copyright © 2017 Minh Tran. All rights reserved.
+//
 
 import UIKit
 
@@ -15,7 +17,6 @@ class FavoriteViewController: UIViewController,UITableViewDelegate,UITableViewDa
     
     var districtList: [District] = []
     var popAreaList = [""]
-    var isFavoriteUpdated = false
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -71,9 +72,6 @@ class FavoriteViewController: UIViewController,UITableViewDelegate,UITableViewDa
     }
     
     @IBAction func backPressed(_ sender: Any) {
-        if self.isFavoriteUpdated {
-            NotificationCenter.default.post(name: NSNotification.Name("AfterUpdateFavorite"), object: nil)
-        }
         self.dismiss(animated: true, completion: nil)
     }
     
@@ -93,7 +91,7 @@ extension FavoriteViewController: FavoriteTapDelegate{
     func notify(isChecked: Bool, position: Int, isEmpty: Bool) {
         if isEmpty
         {
-            let alert = UIAlertController(title: "Notice!", message: "Please choose at least one district", preferredStyle: .alert)
+            let alert = UIAlertController(title: "Chú ý!", message: "Vui lòng chọn ít nhất một quận", preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
             self.present(alert, animated: true, completion: nil)
         }
@@ -102,7 +100,6 @@ extension FavoriteViewController: FavoriteTapDelegate{
             DataMgr.shared.getDistrict(index: position).isFavorite = isChecked
             DataMgr.shared.saveDistrictsBitMask()
             UserDefaults.standard.set(DataMgr.shared.getDistrictsBitMask(), forKey: "BitMask")
-            isFavoriteUpdated = true
         }
     }
 }

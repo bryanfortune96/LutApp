@@ -2,7 +2,9 @@
 //  AccountViewController.swift
 //  Banana
 //
-
+//  Created by TQM on 10/27/17.
+//  Copyright © 2017 Minh Tran. All rights reserved.
+//
 
 import UIKit
 import Alamofire
@@ -52,7 +54,8 @@ class AccountViewController: BaseViewController {
                 } else if self.avatarImage != nil {
                     let token = UserDefaults.standard.string(forKey: "Token")
                     let userID = UserDefaults.standard.string(forKey: "UserID")
-                
+                    //                    imageResponse = FormDataServiceHelpers.postAvatar(data: UIImageJPEGRepresentation(self.avatarImage!, 0.7)!, userID: userID!, token: token!)
+                    //                    FormDataServiceHelpers.postAvatar(data: UIImageJPEGRepresentation(self.avatarImage!, 0.7)!, userID: userID!, token: token!)
                     self.postAvatar(data: UIImageJPEGRepresentation(self.avatarImage!, AVATAR_COMPRESSION_QUALITY)!, userID: userID!, token: token!)
                 } else {
                     self.hideLoading()
@@ -75,7 +78,7 @@ class AccountViewController: BaseViewController {
             } else if self.avatarImage != nil {
                 let token = UserDefaults.standard.string(forKey: "Token")
                 let userID = UserDefaults.standard.string(forKey: "UserID")
-            
+                //                imageResponse = FormDataServiceHelpers.postAvatar(data: UIImageJPEGRepresentation(self.avatarImage!, 0.7)!, userID: userID!, token: token!)
                 self.postAvatar(data: UIImageJPEGRepresentation(self.avatarImage!, AVATAR_COMPRESSION_QUALITY)!, userID: userID!, token: token!)
             } else {
                 self.hideLoading()
@@ -84,12 +87,28 @@ class AccountViewController: BaseViewController {
         }
     }
     
+    //    var imageResponse: [String: Any] = [String: Any]() {
+    //        didSet {
+    //            if imageResponse.count != 0 {
+    //                self.hideLoading()
+    //                if imageResponse["code"] as? Int == 200 {
+    //                    self.showSuccess()
+    //                } else {
+    //                    self.showAlert(message: imageResponse["message"] as! String)
+    //                }
+    //            }
+    //
+    //        }
+    //    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupView()
         loadData()
         // Do any additional setup after loading the view.
-    
+        
+        //        NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillShow), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+        //NotificationCenter.default.addObserver(self, selector: #selector(self.pushViewDown), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
     }
     
     override func didReceiveMemoryWarning() {
@@ -165,9 +184,10 @@ class AccountViewController: BaseViewController {
         } else {
             addressTxtField.placeholder = "Address"
         }
+        
     }
     
-    func postAvatar(data: Data, userID: String, token: String) {
+    func postAvatar(data: Data, userID: String, token: String)  {
         let URL = "https://lutserver.herokuapp.com/user/avatar/" + userID
         let request = try! URLRequest(url: URL, method: .put, headers: ["Content-Type": "application/x-www-form-urlencoded","Authorization": token])
         
@@ -183,7 +203,6 @@ class AccountViewController: BaseViewController {
                                     let value = response.result.value as! [String: Any]
                                     print(value)
                                     self.hideLoading()
-                                    self.addUpdateAvatarObserver()
                                     self.showSuccess()
                                 }
                                 
@@ -194,11 +213,8 @@ class AccountViewController: BaseViewController {
         })
     }
     
-    func addUpdateAvatarObserver() {
-        NotificationCenter.default.post(name: NSNotification.Name("AfterUpdateAvatar"), object: nil)
-    }
     func showSuccess() {
-        let alert = UIAlertController(title: "Notice", message: "Successfully updated information!", preferredStyle: .alert)
+        let alert = UIAlertController(title: "Chú ý", message: "Cập nhật thông tin thành công!", preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
         self.present(alert, animated: true, completion: nil)
     }
@@ -231,6 +247,7 @@ class AccountViewController: BaseViewController {
             let token = UserDefaults.standard.string(forKey: "Token")
             let userID = UserDefaults.standard.string(forKey: "UserID")
             
+            
             let param = ["nickname": self.userNameTxtField.text!,"phone": self.phoneTxtField.text!,"address": self.addressTxtField.text!]
             ServiceHelpers.updateUser(param: param, token: token!, userID: userID!, callback:
                 {
@@ -254,13 +271,13 @@ class AccountViewController: BaseViewController {
         let alert = UIAlertController(title: "", message: nil, preferredStyle: .actionSheet)
         
         // Change Message With Color and Font
-        let alertMsg  = "Choose your avatar"
+        let alertMsg  = "Chọn ảnh đại diện"
         var myMutableString = NSMutableAttributedString()
         myMutableString = NSMutableAttributedString(string: alertMsg as String, attributes: [NSFontAttributeName: UIFont.boldSystemFont(ofSize: 18)])
         myMutableString.addAttribute(NSForegroundColorAttributeName, value: UIColor(white: 34.0 / 255.0, alpha: 1.0), range: NSRange(location: 0, length: alertMsg.characters.count))
         alert.setValue(myMutableString, forKey: "attributedTitle")
         
-        alert.addAction(UIAlertAction(title: "Take a picture", style: .default, handler: {
+        alert.addAction(UIAlertAction(title: "Chụp hình", style: .default, handler: {
             action in
             let imagePicker = UIImagePickerController()
             imagePicker.delegate = self
@@ -269,7 +286,7 @@ class AccountViewController: BaseViewController {
             self.present(imagePicker, animated: true, completion: nil)
         }))
         
-        alert.addAction(UIAlertAction(title: "Gallery", style: .default, handler: {
+        alert.addAction(UIAlertAction(title: "Thư viện", style: .default, handler: {
             action in
             let imagePicker = UIImagePickerController()
             imagePicker.delegate = self
@@ -279,7 +296,7 @@ class AccountViewController: BaseViewController {
             self.present(imagePicker, animated: true, completion: nil)
         }))
         
-        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        alert.addAction(UIAlertAction(title: "Hủy", style: .cancel, handler: nil))
         self.present(alert, animated: true, completion: nil)
     }
 }
