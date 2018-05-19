@@ -34,6 +34,7 @@ class AccountViewController: BaseViewController {
     var userInfo: UsersObject?
     var passwordChanged = false
     var isChangingPassword = false
+    var isUpdatedAvatar = false
     var updateUserResponse: UpdateUserResponse? {
         didSet{
             if (updateUserResponse?.success)! {
@@ -53,7 +54,7 @@ class AccountViewController: BaseViewController {
                     let token = UserDefaults.standard.string(forKey: "Token")
                     let userID = UserDefaults.standard.string(forKey: "UserID")
                 
-                    self.postAvatar(data: UIImageJPEGRepresentation(self.avatarImage!, AVATAR_COMPRESSION_QUALITY)!, userID: userID!, token: token!)
+                    self.postAvatar(data: UIImageJPEGRepresentation(self.avatarImage!, IMAGE_COMPRESSION_QUALITY)!, userID: userID!, token: token!)
                 } else {
                     self.hideLoading()
                     self.showSuccess()
@@ -76,7 +77,7 @@ class AccountViewController: BaseViewController {
                 let token = UserDefaults.standard.string(forKey: "Token")
                 let userID = UserDefaults.standard.string(forKey: "UserID")
             
-                self.postAvatar(data: UIImageJPEGRepresentation(self.avatarImage!, AVATAR_COMPRESSION_QUALITY)!, userID: userID!, token: token!)
+                self.postAvatar(data: UIImageJPEGRepresentation(self.avatarImage!, IMAGE_COMPRESSION_QUALITY)!, userID: userID!, token: token!)
             } else {
                 self.hideLoading()
                 self.showSuccess()
@@ -183,8 +184,8 @@ class AccountViewController: BaseViewController {
                                     let value = response.result.value as! [String: Any]
                                     print(value)
                                     self.hideLoading()
-                                    self.addUpdateAvatarObserver()
                                     self.showSuccess()
+                                    self.isUpdatedAvatar = true
                                 }
                                 
                             case .failure( _):
@@ -246,6 +247,9 @@ class AccountViewController: BaseViewController {
     }
     
     @IBAction func cancelPressed(_ sender: Any) {
+        if isUpdatedAvatar {
+            addUpdateAvatarObserver()
+        }
         self.dismiss(animated: true, completion: nil)
     }
     
