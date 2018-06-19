@@ -17,7 +17,6 @@ class SubmitDetailsViewController: BaseViewController {
     
     @IBOutlet weak var imageBottomConstraint: NSLayoutConstraint!
     @IBOutlet weak var imageView: UIImageView!
-    @IBOutlet weak var imageHeightContraint: NSLayoutConstraint!
     @IBOutlet weak var imageCoverViewHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var cameraButt: UIButton!
     @IBOutlet weak var blackView: UIView!

@@ -9,13 +9,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Lut/ViewControllers/HomeViewController/Cell/CustomInfoWindowUIView.swift"
-            timestampString = "545380683.2500629"
+            filePath = "Lut/ViewControllers/HomeViewController/HomeViewController.swift"
+            timestampString = "550334673.248613"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "63"
-            endingLineNumber = "63"
-            landmarkName = "setupContentView()"
+            startingLineNumber = "445"
+            endingLineNumber = "445"
+            landmarkName = "updateTraffic()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

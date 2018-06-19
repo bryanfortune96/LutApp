@@ -2,11 +2,10 @@
 //  FavoriteTableViewCell.swift
 //  Banana
 
-
 import UIKit
 protocol FavoriteTapDelegate {
     func notify(isChecked: Bool,position: Int,isEmpty: Bool)
-    
+
 }
 
 class FavoriteTableViewCell: UITableViewCell {
@@ -56,10 +55,6 @@ class FavoriteTableViewCell: UITableViewCell {
 
             }
         }
-        
-        
-        
-        
     }
     
     func populate(district: District,position: Int)
@@ -75,9 +70,6 @@ class FavoriteTableViewCell: UITableViewCell {
         else{
             favoriteButt.setImage(#imageLiteral(resourceName: "favorite_unchecked_icon"), for: .normal)
 
+        }
     }
-    }
-        
-    
-    
 }

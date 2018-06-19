@@ -48,7 +48,6 @@ class RankViewTableViewCell: UITableViewCell {
         }
         else{
             usrNameLb.text = usrInfo.nickname
-
         }
         
     }

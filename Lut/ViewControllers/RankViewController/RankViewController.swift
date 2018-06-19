@@ -80,14 +80,14 @@ class RankViewController: BaseViewController,UICollectionViewDelegate,UICollecti
     var choosingOption = 0
     override func viewDidLoad() {
         super.viewDidLoad()
+        getDate()
         setupView()
+        selectItem()
         // Do any additional setup after loading the view.
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        getDate()
-        selectItem()
     }
     
     func getDate()
@@ -202,7 +202,7 @@ class RankViewController: BaseViewController,UICollectionViewDelegate,UICollecti
 
         if choosingOption == 1
         {
-            choosingYear = filterList[row]
+            choosingYear = pickerList[row]
         }
         else if choosingOption == 2
         {
@@ -263,7 +263,6 @@ class RankViewController: BaseViewController,UICollectionViewDelegate,UICollecti
         
         cell.populate(title: filterList[indexPath.row])
         return cell
-        
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
@@ -322,6 +321,10 @@ class RankViewController: BaseViewController,UICollectionViewDelegate,UICollecti
         return cell
     }
     
+    var url : String = "http://google.com?test=toto&test2=titi"
+    var request : NSMutableURLRequest = NSMutableURLRequest()
+    
+    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         var list:[UsersObject] = []
         switch self.choosingOption {
@@ -345,6 +348,8 @@ class RankViewController: BaseViewController,UICollectionViewDelegate,UICollecti
         {
             pickerList = years
             pickerView.reloadAllComponents()
+            let year = years.index(of: choosingYear)
+            pickerView.selectRow(year!, inComponent: 0, animated: false)
             blackView.isHidden = false
             pickerUIView.isHidden = false
         }
@@ -364,6 +369,7 @@ class RankViewController: BaseViewController,UICollectionViewDelegate,UICollecti
         blackView.isHidden = true
         pickerUIView.isHidden = true
     }
+    
     
     func selectItem()
     {

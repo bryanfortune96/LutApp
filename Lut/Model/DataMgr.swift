@@ -20,7 +20,7 @@ class DataMgr {
     var booleanStyle = [false,true]
     
     var months = ["January","February","March","April","May","June","July","August","September","October","November","December"]
-    var years = ["2017"]
+    var years = ["2017", "2018"]
     var levels = ["Beginner","Junior","Senior","Master","Sponsor"]
     
     func getDistricts() -> [District]

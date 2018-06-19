@@ -73,13 +73,18 @@ class FeedbackViewController: UIViewController,MFMailComposeViewControllerDelega
             self.dismiss(animated: true, completion: nil)
         case MFMailComposeResult.sent.rawValue:
             self.dismiss(animated: true, completion: nil)
+            showEmailSent()
             
         default:
             break
         }
     }
     
-    
+    func showEmailSent() {
+        let alert = UIAlertController(title: "Email sent!", message: "Thank you for your email!", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+        self.present(alert, animated: true, completion: nil)
+    }
     ////button actions
     @IBAction func sendPressed(_ sender: Any) {
         let mailComposeViewController = configuredMailComposeViewController()

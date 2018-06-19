@@ -106,7 +106,9 @@ class CustomInfoWindowUIView: UIView {
         let score = notification.userInfo!["score"] as! Double
         if !checkIfEventBelongsToCurrentUser(authorId: (trafficInfo?.author?.id)!) {
             showVotedStars()
-            contentView.pointLb.text = "\(roundPoint(point: score))/5"
+            if score > 0 {
+                contentView.pointLb.text = "\(roundPoint(point: score))/5"
+            }
         } else {
             showUnvotedStars()
         }

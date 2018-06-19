@@ -2,8 +2,6 @@
 //  HomeViewController.swift
 //  Banana
 //
-
-
 import UIKit
 import GoogleMaps
 import GooglePlaces
@@ -13,7 +11,9 @@ import SDWebImage
 let CIRCLE_ALPHA: CGFloat = 0.4
 
 class HomeViewController: BaseViewController,UITableViewDelegate,UITableViewDataSource {
-
+    let ZOOM_LEVEL_LOCATION: Float = 17.0
+    
+    
     @IBOutlet weak var distanceLb: UILabel!
     
     @IBOutlet weak var submitView2Constraint: NSLayoutConstraint!
@@ -122,9 +122,10 @@ class HomeViewController: BaseViewController,UITableViewDelegate,UITableViewData
             }
         }
     }
+    
     var getClusterResponse: ClusterListResponse?
     {
-        didSet{
+        didSet {
             self.hideLoading()
             if (getClusterResponse?.success)!
             {
@@ -145,6 +146,7 @@ class HomeViewController: BaseViewController,UITableViewDelegate,UITableViewData
         }
     }
     var alreadyGotLocation = false
+    var completeSearchPlace = false
     var stageOfSubmission = 0
     let locationManager = CLLocationManager()
     var settingIconList = [#imageLiteral(resourceName: "noti_icon"),#imageLiteral(resourceName: "favorite_icon"),#imageLiteral(resourceName: "idea_icon"),#imageLiteral(resourceName: "reward_icon"),#imageLiteral(resourceName: "help_icon")]
@@ -174,7 +176,6 @@ class HomeViewController: BaseViewController,UITableViewDelegate,UITableViewData
         loadDB()
         setupView()
         setupMap()
-    
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(appWillEnterForeground),
                                                name: NSNotification.Name.UIApplicationWillEnterForeground,
@@ -250,7 +251,7 @@ class HomeViewController: BaseViewController,UITableViewDelegate,UITableViewData
     
     func moveToPlace()
     {
-        let zoomLevel = stageOfSubmission != 0 ? 17.0 : 13.0
+        let zoomLevel = stageOfSubmission != 0 ? ZOOM_LEVEL_LOCATION : 13.0
         placeLb.text = placeTitle
         searchImgView.isHidden = true
         removePlaceButt.isHidden = false
@@ -260,6 +261,7 @@ class HomeViewController: BaseViewController,UITableViewDelegate,UITableViewData
                                               zoom: Float(zoomLevel))
   
         mapView.camera = camera
+        mapView.animate(to: camera)
         
         let position = CLLocationCoordinate2D(latitude: placeLatitude, longitude: placeLongtitude)
         let marker = GMSMarker(position: position)
@@ -395,6 +397,7 @@ class HomeViewController: BaseViewController,UITableViewDelegate,UITableViewData
     
     func openSearch()
     {
+        completeSearchPlace = true
         let autocompleteController = GMSAutocompleteViewController()
         autocompleteController.delegate = self
         present(autocompleteController, animated: true, completion: nil)
@@ -770,7 +773,7 @@ class HomeViewController: BaseViewController,UITableViewDelegate,UITableViewData
         mapView.clear()
         if stageOfSubmission == 0
         {
-            moveToLocation(zoomLevel: 17.0)
+            moveToLocation(zoomLevel: ZOOM_LEVEL_LOCATION)
             submitText.text = "Do you want to set your location as flooded point. Or else you can tap on map to choose different point"
             stageOfSubmission = 1
             self.submitViewConstraint.constant = 23
@@ -973,11 +976,14 @@ extension HomeViewController: CLLocationManagerDelegate {
                 userLongtitude = locValue.longitude
                 userChangedLocation = true
                 print("locations = \(locValue.latitude) \(locValue.longitude)")
-                let location = locations.last
-                let zoomLevel = stageOfSubmission != 0 ? 17.0 : 13.0
-                let camera = GMSCameraPosition.camera(withLatitude: (location?.coordinate.latitude)!, longitude: (location?.coordinate.longitude)!, zoom: Float(zoomLevel))
-                self.mapView?.animate(to: camera)
-                self.locationManager.stopUpdatingLocation()
+                if (!completeSearchPlace) {
+                    let location = locations.last
+                    let zoomLevel = stageOfSubmission != 0 ? 17.0 : 13.0
+                    let camera = GMSCameraPosition.camera(withLatitude: (location?.coordinate.latitude)!, longitude: (location?.coordinate.longitude)!, zoom: Float(zoomLevel))
+                    self.mapView?.animate(to: camera)
+                    self.locationManager.stopUpdatingLocation()
+                    completeSearchPlace = false
+                }
             } else {
                 userChangedLocation = false
             }

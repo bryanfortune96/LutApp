@@ -18,12 +18,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate, COSTouchVisualizerWindowD
     lazy var window: UIWindow? = {
         var customWindow = COSTouchVisualizerWindow(frame: UIScreen.main.bounds)
         
-        customWindow.fillColor = UIColor.purple
-        customWindow.strokeColor = UIColor.blue
+        customWindow.fillColor = UIColor.darkGray
+        customWindow.strokeColor = UIColor.darkGray
         customWindow.touchAlpha = 0.4;
         
-        customWindow.rippleFillColor = UIColor.purple
-        customWindow.rippleStrokeColor = UIColor.blue
+        customWindow.rippleFillColor = UIColor.clear
+        customWindow.rippleStrokeColor = UIColor.clear
         customWindow.touchAlpha = 0.1;
         
         customWindow.touchVisualizerWindowDelegate = self
@@ -61,7 +61,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, COSTouchVisualizerWindowD
         
         GMSServices.provideAPIKey(Strings.mapAPIKey)
         GMSPlacesClient.provideAPIKey(Strings.placesAPIKey)
-        window = UIWindow.init(frame: UIScreen.main.bounds)
+//        window = UIWindow.init(frame: UIScreen.main.bounds)
         loadVC()
         
         window?.rootViewController = self.viewcontroller
@@ -84,12 +84,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, COSTouchVisualizerWindowD
     func loadVC(){
         let homeVC = HomeViewController()
         self.tabHome = UINavigationController.init(rootViewController: homeVC)
-        
-//        let listVC = ListViewController()
-//        self.tabList = UINavigationController.init(rootViewController: listVC)
-        
-//        let submitVC = SubmitViewController()
-//        self.tabSubmit = UINavigationController.init(rootViewController: submitVC)
         
         let rankVC = RankViewController()
         self.tabRank = UINavigationController.init(rootViewController: rankVC)
